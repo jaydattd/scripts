@@ -1,4 +1,4 @@
-CONTAINER_ID=`docker run --name grpc-mock-server -p 4770:4770 -p 4771:4771 -v $(pwd)/../src/resources/protos/:/proto tkpd/gripmock $1`
+CONTAINER_ID=`docker run  -p 4770:4770 -p 4771:4771 -v $(pwd)/../src/resources/protos/:/proto tkpd/gripmock $1`
 
 # until [ "`docker inspect -f {{.State.Running}} grpc-mock-server`"=="true" ]; do
 #     sleep 0.1;
