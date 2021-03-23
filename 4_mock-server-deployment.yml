@@ -44,7 +44,7 @@ spec:
         volumeMounts:
         - mountPath: /protos
           name: task-pv-storage
-        args: ["/protos/Comp-a.proto","/protos/Comp-b.proto","/protos/Comp-c.proto"]
+        args: ["/protos/Comp-b.proto","/protos/Comp-c.proto"]
         image: tkpd/gripmock:latest
         imagePullPolicy: Never
         ports:
