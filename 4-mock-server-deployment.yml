@@ -72,7 +72,7 @@ spec:
   selector:
     app: mock-server
   ports:
-   - port: 4770
+    - port: 4770
       targetPort: 4770
       name: app-port  
     - port: 4771
