@@ -1,0 +1,79 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: task-pv-volume
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/protos"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: task-pv-claim
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gripmock-deployment
+spec:
+  selector:
+    matchLabels:
+      app: gripmock
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: gripmock
+    spec:
+      containers:
+      - name: gripmock
+        volumeMounts:
+        - mountPath: /protos
+          name: task-pv-storage
+        args: ["/protos/Comp-a.proto","/protos/Comp-b.proto","/protos/Comp-c.proto"]
+        image: tkpd/gripmock:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 4770      
+          name: app-port
+        - containerPort: 4771      
+          name: ui-port
+      # volumes:
+      # - name: proto
+      #   hostPath:
+      #     path: "/Users/jaydatt.desai/Documents/Paloma/projects/scaffolding-grpc/k3s-import/gripmock/proto"
+      volumes:
+        - name: task-pv-storage
+          persistentVolumeClaim:
+            claimName: task-pv-claim   
+
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: gripmock-service
+# spec:
+#   selector:
+#     app: gripmock
+#   type: LoadBalancer    
+#   ports:
+#     # - port: 4770
+#     #   targetPort: 4770
+#     #   name: app-port  
+#     - port: 4771
+#       targetPort: 4771       
+#       name: tcp
