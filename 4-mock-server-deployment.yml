@@ -61,19 +61,20 @@ spec:
           persistentVolumeClaim:
             claimName: task-pv-claim   
 
-# ---
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: gripmock-service
-# spec:
-#   selector:
-#     app: gripmock
-#   type: LoadBalancer    
-#   ports:
-#     # - port: 4770
-#     #   targetPort: 4770
-#     #   name: app-port  
-#     - port: 4771
-#       targetPort: 4771       
-#       name: tcp
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mock-server
+  labels:
+    run: mock-server
+spec:
+  selector:
+    app: mock-server
+  ports:
+   - port: 4770
+      targetPort: 4770
+      name: app-port  
+    - port: 4771
+      targetPort: 4771       
+      name: rest-port
