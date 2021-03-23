@@ -28,19 +28,19 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: gripmock-deployment
+  name: mock-server
 spec:
   selector:
     matchLabels:
-      app: gripmock
+      app: mock-server
   replicas: 1
   template:
     metadata:
       labels:
-        app: gripmock
+        app: mock-server
     spec:
       containers:
-      - name: gripmock
+      - name: mock-server
         volumeMounts:
         - mountPath: /protos
           name: task-pv-storage
